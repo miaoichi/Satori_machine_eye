@@ -1,3 +1,21 @@
+/* 
+ * Satori_machine_eye - Toho Satori third eye
+ * Copyright (C) 2025  Cirnocon
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include "AsyncWebCam.h"
 
 AsyncWebCam::AsyncWebCam() : server(80) { }
@@ -46,7 +64,7 @@ void AsyncWebCam::init_camera() {
   config.xclk_freq_hz = 20000000;
   config.pixel_format = PIXFORMAT_JPEG;
   config.frame_size = FRAMESIZE_QVGA;  // 视频流分辨率
-  config.jpeg_quality = 10;
+  config.jpeg_quality = 10; // 帧压缩率
   config.fb_count = 2;
   config.fb_location = CAMERA_FB_IN_PSRAM;
   config.grab_mode = CAMERA_GRAB_WHEN_EMPTY;

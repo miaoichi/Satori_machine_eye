@@ -1,3 +1,21 @@
+/* 
+ * Satori_machine_eye - A Toho Satori third eye
+ * Copyright (C) 2025  Cirnocon
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 #include <AsyncWebCam.h>
 #include <ESP32Servo.h>
 
@@ -21,10 +39,11 @@ volatile double currentAngle[3] = {130, 45, 170};
 volatile int action;
 volatile bool newdata = false;
 
+// 调参用
 const int DEFAULT_STEPS = 100;      // 默认的最大步数
 const int DEFAULT_TOTAL_TIME = 250; // 默认总时间（毫秒）
 
-// 三个舵机同时平滑转动函数1
+// 三个舵机同时平滑转动函数
 void servo_smooth(double x, double y, double z) {
   int steps;
   double delaytime, maxAngleDiff, stepAngles[3], tA[3] = {x, y, z};
@@ -75,7 +94,7 @@ void servo_smooth(double x, double y, double z) {
 }
 
 
-
+// 舵机监听线程
 void servo_task(void *pvParameters) {
   while (true) {
     if (xSemaphoreTake(xMutex, portMAX_DELAY) == pdTRUE) {

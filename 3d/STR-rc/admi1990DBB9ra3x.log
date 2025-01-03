@@ -1,0 +1,540 @@
+﻿STEP to UG
+! INFO-     NX STEP AP203 - V10.0
+! INFO-      
+! INFO-     Start of Translation: 22-OCT-2024  9:03:35 PM
+! INFO-      
+! STATUS-   Converting Part: D:\JianMo\STR\STR-rc.stp
+! SUMMARY-   
+! SUMMARY-    STEP Header Information
+! SUMMARY-   
+! SUMMARY-  Description      Unknown
+! SUMMARY-  Imp_Level        2;1
+! SUMMARY-  File_Name        STR-rc.stp
+! SUMMARY-  Date             2024-10-22T21:01:49+08:00
+! SUMMARY-  Author           Unknown
+! SUMMARY-  Organization     Unknown
+! SUMMARY-  Pre_Version      ST-DEVELOPER v16
+! SUMMARY-  Orig_System      SIEMENS PLM Software NX 10.0
+! SUMMARY-  Authorization    Unknown
+! SUMMARY-  Schema_ID        ap203_configuration_controlled_3d_design_of_mechanical_parts_and_assemblies_mim_lf
+! SUMMARY-   
+! SUMMARY-    Summary of STEP Entities
+! SUMMARY-   
+! SUMMARY-  Entity Type                                                   Count
+! SUMMARY-  -----------                                                   ------
+! SUMMARY-  advanced_brep_shape_representation .........................:     21
+! SUMMARY-  advanced_face ..............................................:    946
+! SUMMARY-  application_context ........................................:      1
+! SUMMARY-  application_protocol_definition ............................:      1
+! SUMMARY-  approval ...................................................:     94
+! SUMMARY-  approval_date_time .........................................:     94
+! SUMMARY-  approval_person_organization ...............................:     94
+! SUMMARY-  approval_role ..............................................:     94
+! SUMMARY-  approval_status ............................................:     94
+! SUMMARY-  axis1_placement ............................................:      4
+! SUMMARY-  axis2_placement_3d .........................................:   1601
+! SUMMARY-  b_spline_curve_with_knots ..................................:    445
+! SUMMARY-  b_spline_curve_with_knots_and_rational_b_spline_curve ......:      5
+! SUMMARY-  b_spline_surface_with_knots_and_rational_b_spline_surface ..:      8
+! SUMMARY-  calendar_date ..............................................:    166
+! SUMMARY-  cartesian_point ............................................:   9286
+! SUMMARY-  cc_design_approval .........................................:     94
+! SUMMARY-  cc_design_date_and_time_assignment .........................:     72
+! SUMMARY-  cc_design_person_and_organization_assignment ...............:    116
+! SUMMARY-  cc_design_security_classification ..........................:     50
+! SUMMARY-  circle .....................................................:    750
+! SUMMARY-  closed_shell ...............................................:     21
+! SUMMARY-  conical_surface ............................................:     37
+! SUMMARY-  context_dependent_shape_representation .....................:     28
+! SUMMARY-  conversion_based_unit_and_plane_angle_unit .................:      1
+! SUMMARY-  coordinated_universal_time_offset ..........................:    166
+! SUMMARY-  cylindrical_surface ........................................:    267
+! SUMMARY-  date_and_time ..............................................:    166
+! SUMMARY-  date_time_role .............................................:     72
+! SUMMARY-  design_context .............................................:     22
+! SUMMARY-  dimensional_exponents ......................................:      1
+! SUMMARY-  direction ..................................................:   4622
+! SUMMARY-  edge_curve .................................................:   2380
+! SUMMARY-  edge_loop ..................................................:   1235
+! SUMMARY-  ellipse ....................................................:      8
+! SUMMARY-  face_bound .................................................:    518
+! SUMMARY-  face_outer_bound ...........................................:    724
+! SUMMARY-  geometric_representation_context_and_global_uncertainty_a ..:     22
+! SUMMARY-  item_defined_transformation ................................:     28
+! SUMMARY-  length_unit_and_si_unit ....................................:      1
+! SUMMARY-  line .......................................................:   1296
+! SUMMARY-  local_time .................................................:    166
+! SUMMARY-  manifold_solid_brep ........................................:     21
+! SUMMARY-  mechanical_context .........................................:     22
+! SUMMARY-  next_assembly_usage_occurrence .............................:     28
+! SUMMARY-  organization ...............................................:    210
+! SUMMARY-  oriented_edge ..............................................:   4760
+! SUMMARY-  person .....................................................:      1
+! SUMMARY-  person_and_organization ....................................:    210
+! SUMMARY-  person_and_organization_role ...............................:    116
+! SUMMARY-  plane ......................................................:    469
+! SUMMARY-  plane_angle_measure_with_unit ..............................:      1
+! SUMMARY-  plane_angle_unit_and_si_unit ...............................:      1
+! SUMMARY-  product ....................................................:     22
+! SUMMARY-  product_category ...........................................:     23
+! SUMMARY-  product_definition .........................................:     22
+! SUMMARY-  product_definition_formation_with_specified_source .........:     22
+! SUMMARY-  product_definition_shape ...................................:     50
+! SUMMARY-  product_related_product_category ...........................:     22
+! SUMMARY-  representation_relationship_with_transformation_and_shape ..:     28
+! SUMMARY-  security_classification ....................................:     50
+! SUMMARY-  security_classification_level ..............................:     50
+! SUMMARY-  shape_definition_representation ............................:     22
+! SUMMARY-  shape_representation .......................................:     22
+! SUMMARY-  shape_representation_relationship ..........................:     21
+! SUMMARY-  si_unit_and_solid_angle_unit ...............................:      1
+! SUMMARY-  spherical_surface ..........................................:     16
+! SUMMARY-  surface_of_linear_extrusion ................................:    120
+! SUMMARY-  surface_of_revolution ......................................:      4
+! SUMMARY-  toroidal_surface ...........................................:     25
+! SUMMARY-  uncertainty_measure_with_unit ..............................:     22
+! SUMMARY-  vector .....................................................:   1416
+! SUMMARY-  vertex_loop ................................................:      7
+! SUMMARY-  vertex_point ...............................................:   1654
+! SUMMARY-                                                               -------
+! SUMMARY-  Total                                                          35275
+! STATUS-    
+! STATUS-   Converting to Output Form (Phase 2 of 3): 22-OCT-2024 9:03:35 PM
+! STATUS-    
+! STATUS-    
+! STATUS-   Generating UG geometry and placing them in parts
+! STATUS-    
+! STATUS-   Creating the UG part (Phase 3 of 3): 22-OCT-2024  9:03:35 PM
+! STATUS-    
+! STATUS-   Creating UG solid body from Input Ent Id 2731
+! STATUS-    
+! STATUS-   fixing vertex and/or edge off surface faults
+! STATUS-    
+! STATUS-   simplifying Bsplines to analytics
+! STATUS-    
+! STATUS-   converting tolerant edges into exact edges
+! STATUS-    
+! STATUS-   doing final check of body to report any faults
+! STATUS-    
+! INFO-     Filing Part ..: D:\JianMo\STR\STR-rc\012588
+! SUMMARY-   
+! SUMMARY-  Summary of Unigraphics Part Entities
+! SUMMARY-   
+! SUMMARY-  Entities Processed             Count
+! SUMMARY-  ------------------             -----
+! SUMMARY-  Solid .......................:     1
+! SUMMARY-                                 -----
+! SUMMARY-  Total                              1
+! STATUS-   Creating the UG part (Phase 3 of 3): 22-OCT-2024  9:03:36 PM
+! STATUS-    
+! STATUS-   Creating UG solid body from Input Ent Id 2732
+! STATUS-    
+! STATUS-   fixing vertex and/or edge off surface faults
+! STATUS-    
+! STATUS-   simplifying Bsplines to analytics
+! STATUS-    
+! STATUS-   converting tolerant edges into exact edges
+! STATUS-    
+! STATUS-   doing final check of body to report any faults
+! STATUS-    
+! INFO-     Filing Part ..: D:\JianMo\STR\STR-rc\022587
+! SUMMARY-   
+! SUMMARY-  Summary of Unigraphics Part Entities
+! SUMMARY-   
+! SUMMARY-  Entities Processed             Count
+! SUMMARY-  ------------------             -----
+! SUMMARY-  Solid .......................:     1
+! SUMMARY-                                 -----
+! SUMMARY-  Total                              1
+! STATUS-   Creating the UG part (Phase 3 of 3): 22-OCT-2024  9:03:36 PM
+! STATUS-    
+! STATUS-   Creating UG solid body from Input Ent Id 2733
+! STATUS-    
+! STATUS-   fixing vertex and/or edge off surface faults
+! STATUS-    
+! STATUS-   simplifying Bsplines to analytics
+! STATUS-    
+! STATUS-   converting tolerant edges into exact edges
+! STATUS-    
+! STATUS-   doing final check of body to report any faults
+! STATUS-    
+! INFO-     Filing Part ..: D:\JianMo\STR\STR-rc\03-12586
+! SUMMARY-   
+! SUMMARY-  Summary of Unigraphics Part Entities
+! SUMMARY-   
+! SUMMARY-  Entities Processed             Count
+! SUMMARY-  ------------------             -----
+! SUMMARY-  Solid .......................:     1
+! SUMMARY-                                 -----
+! SUMMARY-  Total                              1
+! STATUS-   Creating the UG part (Phase 3 of 3): 22-OCT-2024  9:03:36 PM
+! STATUS-    
+! STATUS-   Creating UG solid body from Input Ent Id 2734
+! STATUS-    
+! STATUS-   fixing vertex and/or edge off surface faults
+! STATUS-    
+! STATUS-   simplifying Bsplines to analytics
+! STATUS-    
+! STATUS-   converting tolerant edges into exact edges
+! STATUS-    
+! STATUS-   doing final check of body to report any faults
+! STATUS-    
+! INFO-     Filing Part ..: D:\JianMo\STR\STR-rc\042585
+! SUMMARY-   
+! SUMMARY-  Summary of Unigraphics Part Entities
+! SUMMARY-   
+! SUMMARY-  Entities Processed             Count
+! SUMMARY-  ------------------             -----
+! SUMMARY-  Solid .......................:     1
+! SUMMARY-                                 -----
+! SUMMARY-  Total                              1
+! STATUS-   Creating the UG part (Phase 3 of 3): 22-OCT-2024  9:03:36 PM
+! STATUS-    
+! STATUS-   Creating UG solid body from Input Ent Id 2735
+! STATUS-    
+! STATUS-   fixing vertex off curve and/or edge reversed faults
+! STATUS-    
+! STATUS-   fixing vertex and/or edge off surface faults
+! STATUS-    
+! STATUS-   simplifying Bsplines to analytics
+! STATUS-    
+! STATUS-   converting tolerant edges into exact edges
+! STATUS-    
+! STATUS-   doing final check of body to report any faults
+! STATUS-    
+! INFO-     Filing Part ..: D:\JianMo\STR\STR-rc\052584
+! SUMMARY-   
+! SUMMARY-  Summary of Unigraphics Part Entities
+! SUMMARY-   
+! SUMMARY-  Entities Processed             Count
+! SUMMARY-  ------------------             -----
+! SUMMARY-  Solid .......................:     1
+! SUMMARY-                                 -----
+! SUMMARY-  Total                              1
+! STATUS-   Creating the UG part (Phase 3 of 3): 22-OCT-2024  9:03:37 PM
+! STATUS-    
+! STATUS-   Creating UG solid body from Input Ent Id 2736
+! STATUS-    
+! STATUS-   fixing vertex and/or edge off surface faults
+! STATUS-    
+! STATUS-   simplifying Bsplines to analytics
+! STATUS-    
+! STATUS-   converting tolerant edges into exact edges
+! STATUS-    
+! STATUS-   doing final check of body to report any faults
+! STATUS-    
+! INFO-     Filing Part ..: D:\JianMo\STR\STR-rc\062583
+! SUMMARY-   
+! SUMMARY-  Summary of Unigraphics Part Entities
+! SUMMARY-   
+! SUMMARY-  Entities Processed             Count
+! SUMMARY-  ------------------             -----
+! SUMMARY-  Solid .......................:     1
+! SUMMARY-                                 -----
+! SUMMARY-  Total                              1
+! STATUS-   Creating the UG part (Phase 3 of 3): 22-OCT-2024  9:03:37 PM
+! STATUS-    
+! STATUS-   Creating UG solid body from Input Ent Id 2737
+! STATUS-    
+! STATUS-   simplifying Bsplines to analytics
+! STATUS-    
+! STATUS-   converting tolerant edges into exact edges
+! STATUS-    
+! STATUS-   doing final check of body to report any faults
+! STATUS-    
+! INFO-     Filing Part ..: D:\JianMo\STR\STR-rc\072582
+! SUMMARY-   
+! SUMMARY-  Summary of Unigraphics Part Entities
+! SUMMARY-   
+! SUMMARY-  Entities Processed             Count
+! SUMMARY-  ------------------             -----
+! SUMMARY-  Solid .......................:     1
+! SUMMARY-                                 -----
+! SUMMARY-  Total                              1
+! STATUS-   Creating the UG part (Phase 3 of 3): 22-OCT-2024  9:03:37 PM
+! STATUS-    
+! STATUS-   Creating UG solid body from Input Ent Id 2738
+! STATUS-    
+! STATUS-   simplifying Bsplines to analytics
+! STATUS-    
+! STATUS-   converting tolerant edges into exact edges
+! STATUS-    
+! STATUS-   doing final check of body to report any faults
+! STATUS-    
+! INFO-     Filing Part ..: D:\JianMo\STR\STR-rc\082581
+! SUMMARY-   
+! SUMMARY-  Summary of Unigraphics Part Entities
+! SUMMARY-   
+! SUMMARY-  Entities Processed             Count
+! SUMMARY-  ------------------             -----
+! SUMMARY-  Solid .......................:     1
+! SUMMARY-                                 -----
+! SUMMARY-  Total                              1
+! STATUS-   Creating the UG part (Phase 3 of 3): 22-OCT-2024  9:03:37 PM
+! STATUS-    
+! STATUS-   Creating UG solid body from Input Ent Id 2739
+! STATUS-    
+! STATUS-   simplifying Bsplines to analytics
+! STATUS-    
+! STATUS-   converting tolerant edges into exact edges
+! STATUS-    
+! STATUS-   doing final check of body to report any faults
+! STATUS-    
+! INFO-     Filing Part ..: D:\JianMo\STR\STR-rc\092580
+! SUMMARY-   
+! SUMMARY-  Summary of Unigraphics Part Entities
+! SUMMARY-   
+! SUMMARY-  Entities Processed             Count
+! SUMMARY-  ------------------             -----
+! SUMMARY-  Solid .......................:     1
+! SUMMARY-                                 -----
+! SUMMARY-  Total                              1
+! STATUS-   Creating the UG part (Phase 3 of 3): 22-OCT-2024  9:03:37 PM
+! STATUS-    
+! STATUS-   Creating UG solid body from Input Ent Id 2740
+! STATUS-    
+! STATUS-   simplifying Bsplines to analytics
+! STATUS-    
+! STATUS-   converting tolerant edges into exact edges
+! STATUS-    
+! STATUS-   doing final check of body to report any faults
+! STATUS-    
+! INFO-     Filing Part ..: D:\JianMo\STR\STR-rc\MG90S2579
+! SUMMARY-   
+! SUMMARY-  Summary of Unigraphics Part Entities
+! SUMMARY-   
+! SUMMARY-  Entities Processed             Count
+! SUMMARY-  ------------------             -----
+! SUMMARY-  Solid .......................:     1
+! SUMMARY-                                 -----
+! SUMMARY-  Total                              1
+! STATUS-   Creating the UG part (Phase 3 of 3): 22-OCT-2024  9:03:37 PM
+! STATUS-    
+! STATUS-   Creating UG solid body from Input Ent Id 2741
+! STATUS-    
+! STATUS-   simplifying Bsplines to analytics
+! STATUS-    
+! STATUS-   converting tolerant edges into exact edges
+! STATUS-    
+! STATUS-   doing final check of body to report any faults
+! STATUS-    
+! INFO-     Filing Part ..: D:\JianMo\STR\STR-rc\pad2578
+! SUMMARY-   
+! SUMMARY-  Summary of Unigraphics Part Entities
+! SUMMARY-   
+! SUMMARY-  Entities Processed             Count
+! SUMMARY-  ------------------             -----
+! SUMMARY-  Solid .......................:     1
+! SUMMARY-                                 -----
+! SUMMARY-  Total                              1
+! STATUS-   Creating the UG part (Phase 3 of 3): 22-OCT-2024  9:03:37 PM
+! STATUS-    
+! STATUS-   Creating UG solid body from Input Ent Id 2742
+! STATUS-    
+! STATUS-   simplifying Bsplines to analytics
+! STATUS-    
+! STATUS-   converting tolerant edges into exact edges
+! STATUS-    
+! STATUS-   doing final check of body to report any faults
+! STATUS-    
+! INFO-     Filing Part ..: D:\JianMo\STR\STR-rc\servo pin2577
+! SUMMARY-   
+! SUMMARY-  Summary of Unigraphics Part Entities
+! SUMMARY-   
+! SUMMARY-  Entities Processed             Count
+! SUMMARY-  ------------------             -----
+! SUMMARY-  Solid .......................:     1
+! SUMMARY-                                 -----
+! SUMMARY-  Total                              1
+! STATUS-   Creating the UG part (Phase 3 of 3): 22-OCT-2024  9:03:37 PM
+! STATUS-    
+! STATUS-   Creating UG solid body from Input Ent Id 2743
+! STATUS-    
+! STATUS-   simplifying Bsplines to analytics
+! STATUS-    
+! STATUS-   converting tolerant edges into exact edges
+! STATUS-    
+! STATUS-   doing final check of body to report any faults
+! STATUS-    
+! INFO-     Filing Part ..: D:\JianMo\STR\STR-rc\SS12F15VG62576
+! SUMMARY-   
+! SUMMARY-  Summary of Unigraphics Part Entities
+! SUMMARY-   
+! SUMMARY-  Entities Processed             Count
+! SUMMARY-  ------------------             -----
+! SUMMARY-  Solid .......................:     1
+! SUMMARY-                                 -----
+! SUMMARY-  Total                              1
+! STATUS-   Creating the UG part (Phase 3 of 3): 22-OCT-2024  9:03:37 PM
+! STATUS-    
+! STATUS-   Creating UG solid body from Input Ent Id 2744
+! STATUS-    
+! STATUS-   simplifying Bsplines to analytics
+! STATUS-    
+! STATUS-   converting tolerant edges into exact edges
+! STATUS-    
+! STATUS-   doing final check of body to report any faults
+! STATUS-    
+! INFO-     Filing Part ..: D:\JianMo\STR\STR-rc\DCDC2575
+! SUMMARY-   
+! SUMMARY-  Summary of Unigraphics Part Entities
+! SUMMARY-   
+! SUMMARY-  Entities Processed             Count
+! SUMMARY-  ------------------             -----
+! SUMMARY-  Solid .......................:     1
+! SUMMARY-                                 -----
+! SUMMARY-  Total                              1
+! STATUS-   Creating the UG part (Phase 3 of 3): 22-OCT-2024  9:03:37 PM
+! STATUS-    
+! STATUS-   Creating UG solid body from Input Ent Id 2745
+! STATUS-    
+! STATUS-   simplifying Bsplines to analytics
+! STATUS-    
+! STATUS-   converting tolerant edges into exact edges
+! STATUS-    
+! STATUS-   doing final check of body to report any faults
+! STATUS-    
+! INFO-     Filing Part ..: D:\JianMo\STR\STR-rc\YAOBI2574
+! SUMMARY-   
+! SUMMARY-  Summary of Unigraphics Part Entities
+! SUMMARY-   
+! SUMMARY-  Entities Processed             Count
+! SUMMARY-  ------------------             -----
+! SUMMARY-  Solid .......................:     1
+! SUMMARY-                                 -----
+! SUMMARY-  Total                              1
+! STATUS-   Creating the UG part (Phase 3 of 3): 22-OCT-2024  9:03:37 PM
+! STATUS-    
+! STATUS-   Creating UG solid body from Input Ent Id 2746
+! STATUS-    
+! STATUS-   simplifying Bsplines to analytics
+! STATUS-    
+! STATUS-   converting tolerant edges into exact edges
+! STATUS-    
+! STATUS-   doing final check of body to report any faults
+! STATUS-    
+! INFO-     Filing Part ..: D:\JianMo\STR\STR-rc\rocker2573
+! SUMMARY-   
+! SUMMARY-  Summary of Unigraphics Part Entities
+! SUMMARY-   
+! SUMMARY-  Entities Processed             Count
+! SUMMARY-  ------------------             -----
+! SUMMARY-  Solid .......................:     1
+! SUMMARY-                                 -----
+! SUMMARY-  Total                              1
+! STATUS-   Creating the UG part (Phase 3 of 3): 22-OCT-2024  9:03:37 PM
+! STATUS-    
+! STATUS-   Creating UG solid body from Input Ent Id 2747
+! STATUS-    
+! STATUS-   simplifying Bsplines to analytics
+! STATUS-    
+! STATUS-   converting tolerant edges into exact edges
+! STATUS-    
+! STATUS-   doing final check of body to report any faults
+! STATUS-    
+! INFO-     Filing Part ..: D:\JianMo\STR\STR-rc\rack-rc2572
+! SUMMARY-   
+! SUMMARY-  Summary of Unigraphics Part Entities
+! SUMMARY-   
+! SUMMARY-  Entities Processed             Count
+! SUMMARY-  ------------------             -----
+! SUMMARY-  Solid .......................:     1
+! SUMMARY-                                 -----
+! SUMMARY-  Total                              1
+! STATUS-   Creating the UG part (Phase 3 of 3): 22-OCT-2024  9:03:38 PM
+! STATUS-    
+! STATUS-   Creating UG solid body from Input Ent Id 2748
+! STATUS-    
+! STATUS-   simplifying Bsplines to analytics
+! STATUS-    
+! STATUS-   converting tolerant edges into exact edges
+! STATUS-    
+! STATUS-   doing final check of body to report any faults
+! STATUS-    
+! INFO-     Filing Part ..: D:\JianMo\STR\STR-rc\support-12571
+! SUMMARY-   
+! SUMMARY-  Summary of Unigraphics Part Entities
+! SUMMARY-   
+! SUMMARY-  Entities Processed             Count
+! SUMMARY-  ------------------             -----
+! SUMMARY-  Solid .......................:     1
+! SUMMARY-                                 -----
+! SUMMARY-  Total                              1
+! STATUS-   Creating the UG part (Phase 3 of 3): 22-OCT-2024  9:03:38 PM
+! STATUS-    
+! STATUS-   Creating UG solid body from Input Ent Id 2749
+! STATUS-    
+! STATUS-   simplifying Bsplines to analytics
+! STATUS-    
+! STATUS-   converting tolerant edges into exact edges
+! STATUS-    
+! STATUS-   doing final check of body to report any faults
+! STATUS-    
+! INFO-     Filing Part ..: D:\JianMo\STR\STR-rc\pupil2570
+! SUMMARY-   
+! SUMMARY-  Summary of Unigraphics Part Entities
+! SUMMARY-   
+! SUMMARY-  Entities Processed             Count
+! SUMMARY-  ------------------             -----
+! SUMMARY-  Solid .......................:     1
+! SUMMARY-                                 -----
+! SUMMARY-  Total                              1
+! STATUS-   Creating the UG part (Phase 3 of 3): 22-OCT-2024  9:03:38 PM
+! STATUS-    
+! STATUS-   Creating UG solid body from Input Ent Id 2750
+! STATUS-    
+! STATUS-   simplifying Bsplines to analytics
+! STATUS-    
+! STATUS-   converting tolerant edges into exact edges
+! STATUS-    
+! STATUS-   doing final check of body to report any faults
+! STATUS-    
+! INFO-     Filing Part ..: D:\JianMo\STR\STR-rc\gear12569
+! SUMMARY-   
+! SUMMARY-  Summary of Unigraphics Part Entities
+! SUMMARY-   
+! SUMMARY-  Entities Processed             Count
+! SUMMARY-  ------------------             -----
+! SUMMARY-  Solid .......................:     1
+! SUMMARY-                                 -----
+! SUMMARY-  Total                              1
+! STATUS-   Creating the UG part (Phase 3 of 3): 22-OCT-2024  9:03:38 PM
+! STATUS-    
+! STATUS-   Creating UG solid body from Input Ent Id 2751
+! STATUS-    
+! STATUS-   simplifying Bsplines to analytics
+! STATUS-    
+! STATUS-   converting tolerant edges into exact edges
+! STATUS-    
+! STATUS-   doing final check of body to report any faults
+! STATUS-    
+! INFO-     Filing Part ..: D:\JianMo\STR\STR-rc\gear22568
+! SUMMARY-   
+! SUMMARY-  Summary of Unigraphics Part Entities
+! SUMMARY-   
+! SUMMARY-  Entities Processed             Count
+! SUMMARY-  ------------------             -----
+! SUMMARY-  Solid .......................:     1
+! SUMMARY-                                 -----
+! SUMMARY-  Total                              1
+! STATUS-   Creating the UG part (Phase 3 of 3): 22-OCT-2024  9:03:38 PM
+! INFO-     Filing Part ..: D:\JianMo\STR\STR-rc\admi1990DBB9ra3x.prt
+! SUMMARY-   
+! SUMMARY-  Summary of Unigraphics Part Entities
+! SUMMARY-   
+! SUMMARY-  Entities Processed             Count
+! SUMMARY-  ------------------             -----
+! SUMMARY-  Component ...................:    28
+! SUMMARY-                                 -----
+! SUMMARY-  Total                             28
+! INFO-      
+! INFO-     Total number of solids input for this translation       :        21
+! INFO-      
+! INFO-     Number of solids created without body validation faults :        21
+! INFO-      
+! INFO-     Number of solids created with body validation fault(s)  :         0
+! INFO-      
+! INFO-     Number of solids ending up as sheet bodies              :         0
+! INFO-      
+! INFO-     End of Translation: 22-OCT-2024  9:03:38 PM
+! INFO-      
