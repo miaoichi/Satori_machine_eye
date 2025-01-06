@@ -8,7 +8,7 @@ Cirnocon
 ## 联系方式
 电子邮件： cirnocon5@gmail.com 或 reedscirno@gmail.com
 
-GitHHub：https://github.com/Cirnocon
+GitHub：https://github.com/Cirnocon
 
 b站：Cirnocon
 
@@ -70,6 +70,6 @@ b站：Cirnocon
 ## 注意事项
 摄像头引脚定义文件是根据 ***PCB*** 板子的连线写的
 
-***esp32*** 的 ***WiFi ap*** 模式不支持手机连接，没法用手机连接 ***WiFi*** 遥控了。或者就不用 ***ap***模式，但那样就要手动在代码里改成你的热点名字和密码了。未来可能会用 ***vue3*** 重写网页控制。
+目前***esp32*** 的 ***WiFi*** 遥控有些不稳定，未来可能会用 ***vue3*** 重写。
 
 

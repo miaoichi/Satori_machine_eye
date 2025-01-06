@@ -23,6 +23,8 @@
       border: 2px solid #ddd;
       border-radius: 10px;
       background-color: white;
+      max-width: 800px;
+      width: 100%;
     }
     img {
       width: 100%;
@@ -37,21 +39,23 @@
     }
     .btn-container {
       display: flex;
-      flex-wrap: wrap;
+      flex-wrap: wrap; 
       justify-content: center;
-      gap: 10px;
+      gap: 10px; 
+      margin-bottom: 20px;
     }
     button {
       font-size: 16px;
       padding: 10px;
-      margin: 5px;
       cursor: pointer;
       background-color: white;
       color: black;
       border: 2px solid rgb(102, 125, 150);
       border-radius: 5px;
       transition: background-color 0.3s, color 0.3s;
-      width: 150px;
+      flex: 1 1 calc(33.333% - 20px);
+      max-width: 150px; 
+      min-width: 100px; 
     }
     button:hover {
       background-color: #45a049;
@@ -61,42 +65,83 @@
       background-color: #ccc;
       cursor: not-allowed;
     }
+    #control-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+    #joystick-container {
+      display: flex;
+      flex-wrap: wrap; 
+      justify-content: center;
+      width: 200px;
+      height: 200px;
+    }
   </style>
 </head>
 <body>
   <div id="video-container">
     <h1>ESP32 Camera Stream</h1>
-    <img id="videoStream" src="" alt="Camera Stream" style="display: none;">
-    <div class="btn-container">
-      <button onclick="setAction(1)">眨眼</button>
-      <button onclick="setAction(2)">摇头</button>
-      <button onclick="setAction(3)">点头</button>
-      <button onclick="setAction(4)">闭眼</button>
-      <button onclick="setAction(5)">睁眼</button>
-    </div>
-    <div class="btn-container">
-      <button id="toggleStreamButton" onclick="toggleStream()">Start Stream</button>
-      <button id="mouseControlButton" onclick="toggleMouseControl()">Start Mouse Control</button>
+    <img id="videoStream" src="" alt="Camera Stream" style="display: none;"> 
+    <img id="placeholderImage" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='640' height='480' viewBox='0 0 640 480'%3E%3Crect width='640' height='480' fill='white'/%3E%3C/svg%3E" alt="Placeholder Image" style="display: block;">
+
+    <div id="control-container">
+      <div class="btn-container">
+        <!-- Action Buttons -->
+        <button onclick="setAction(1)">眨眼</button>
+        <button onclick="setAction(2)">摇头</button>
+        <button onclick="setAction(3)">点头</button>
+        <button onclick="setAction(4)">闭眼</button>
+        <button onclick="setAction(5)">睁眼</button>
+        <button id="toggleStreamButton" onclick="toggleStream()">Start Stream</button>
+      </div>
+      
+      <div id="joystick-container">
+      </div>
     </div>
   </div>
-  
+
   <script src="/nipplejs.min.js"></script>
-  
+
   <script>
     let Action = 0;
     let mouseX = 0;
     let mouseY = 0;
     let z = 140;
     let isStreaming = false;
-    let isMouseControlEnabled = false;
-    let updateInterval = 125;
-    let lastMouseUpdate = 0;
+    let lastSendTime = 0;
+    const sendInterval = 125; 
 
-    function getCenter() {
-      const width = window.innerWidth;
-      const height = window.innerHeight;
-      return { centerX: width / 2, centerY: height / 2 };
-    }
+    const joystickManager = nipplejs.create({
+      zone: document.getElementById('joystick-container'),
+      mode: 'static',
+      position: { left: '50%', top: '85%' },
+      color: 'blue',
+      size: 150
+    });
+
+    joystickManager.on('move', function (evt, data) {
+      const currentTime = Date.now();
+      if (currentTime - lastSendTime < sendInterval) return;
+
+      const distance = data.distance / 75; 
+      const angleRad = data.angle.radian;
+
+      mouseX = parseFloat((distance * Math.cos(angleRad)).toFixed(3));
+      mouseY = parseFloat((-distance * Math.sin(angleRad)).toFixed(3)); 
+
+      lastSendTime = currentTime;
+      setAction(0);
+      sendData();
+    });
+
+    joystickManager.on('end', function () {
+      mouseX = 0;
+      mouseY = 0;
+      setAction(0);
+      sendData();
+    });
 
     function sendData() {
       const data = { action: Action, mouseX: mouseX, mouseY: mouseY, mouseZ: z };
@@ -123,56 +168,27 @@
     function toggleStream() {
       isStreaming = !isStreaming;
       const videoStream = document.getElementById('videoStream');
+      const placeholderImage = document.getElementById('placeholderImage');
       const toggleButton = document.getElementById('toggleStreamButton');
 
       if (isStreaming) {
         videoStream.style.display = 'block';
         videoStream.src = '/stream';
+        placeholderImage.style.display = 'none'; 
         toggleButton.textContent = "Stop Stream";
         console.log('Video stream started');
       } else {
         videoStream.style.display = 'none';
         videoStream.src = '';
+        placeholderImage.style.display = 'block'; 
         toggleButton.textContent = "Start Stream"; 
         console.log('Video stream stopped');
       }
     }
 
-    function toggleMouseControl() {
-      isMouseControlEnabled = !isMouseControlEnabled;
-      const button = document.getElementById('mouseControlButton');
-      button.textContent = isMouseControlEnabled ? "Stop Mouse Control" : "Start Mouse Control";
-      console.log(isMouseControlEnabled ? "Mouse control enabled" : "Mouse control disabled");
-    }
-
-    document.addEventListener('mousemove', function (event) {
-      if (!isMouseControlEnabled) return;
-
-      const currentTime = Date.now();
-      if (currentTime - lastMouseUpdate < updateInterval) return;
-
-      const { centerX, centerY } = getCenter();
-      
-      const relativeX = ((event.clientX - centerX) / centerX).toFixed(3);
-      const relativeY = ((event.clientY - centerY) / centerY).toFixed(3);
-
-      mouseX = parseFloat(relativeX);
-      mouseY = parseFloat(relativeY);
-
-      lastMouseUpdate = currentTime;
-
-      setAction(0);
-
-      sendData();  
-    });
-
     document.addEventListener('wheel', function (event) {
-      if (!isMouseControlEnabled) return;
-
       const delta = event.deltaY;
-
       z = Math.min(Math.max(z + delta / 10, 70), 170);
-
       sendData();
     });
   </script>

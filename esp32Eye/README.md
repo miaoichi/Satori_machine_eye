@@ -3,7 +3,7 @@
 Cirnocon
 
 ## 联系方式
-电子邮件： cirnocon5@gmail.com 或 reedscirno@gmail.com
+电子邮件：cirnocon5@gmail.com 或 reedscirno@gmail.com
 
 GitHub：https://github.com/Cirnocon
 
@@ -16,7 +16,7 @@ b站：Cirnocon
     - `data` SPIFFS文件储存文件夹
         - `index.html` html文件
 
-        - `nipplejs.min.js` 摇杆库（虽然没用上）
+        - `nipplejs.min.js` 摇杆库
 
     - `lib/` 自定义库文件夹
         - `AsyncWebCam` 
