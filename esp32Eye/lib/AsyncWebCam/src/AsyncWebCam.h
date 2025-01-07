@@ -32,7 +32,7 @@
 
 class AsyncWebCam {
 private:
-    const char* ssid = "ESP32-AP"; 
+    const char* ssid = "觉之瞳"; 
     const char* password = "";  
 
     AsyncWebServer server;
