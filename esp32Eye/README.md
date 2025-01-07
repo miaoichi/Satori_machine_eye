@@ -1,4 +1,4 @@
-# 机械觉之瞳
+# 机械觉之瞳-esp32eye
 ## 作者
 Cirnocon
 
@@ -26,7 +26,13 @@ b站：Cirnocon
         
     - `partitions.csv` 分区表
     
-    - `platformio.ini` ***platformio*** 配置文件
+    - `platformio.ini` ***PlatformIO*** 配置文件
+
+
+## 食用方法
+***vscode*** 下载 ***PlatformIO IDE*** 插件
+
+打开 ***esp32eye*** 文件，先上传 ***SPIFFS*** 系统文件，再烧录即可
 
 
 ## 注意事项
