@@ -32,7 +32,19 @@ b站：Cirnocon
 ## 食用方法
 ***vscode*** 下载 ***PlatformIO IDE*** 插件
 
-打开 ***esp32eye*** 文件，先上传 ***SPIFFS*** 系统文件，再烧录即可
+> ***左侧栏拓展图标*** -> ***搜索 PlatformIO IDE*** -> ***安装***
+
+打开 ***esp32eye*** 文件夹
+
+> ***左上角角文件*** -> ***打开文件夹*** -> ***找到 esp32eye 文件夹***
+
+上传 ***SPIFFS*** 系统文件
+
+> ***左侧栏小蚂蚁图标*** -> ***Bulid Filesystem Image*** -> ***Program Size*** -> ***Upload Filesystem Image***
+
+编译并烧录文件
+
+> ***左侧栏小蚂蚁图标*** -> ***Build*** -> ***Upload*** 
 
 
 ## 注意事项
@@ -40,4 +52,4 @@ b站：Cirnocon
 
 ***platformio*** 的程序烧录并不会自动更新 ***SPIFFS*** 系统文件，需要手动更新
 
-> 具体方法: ***Bulid Filesystem Image*** -> ***Program Size*** -> ***Upload Filesystem Image***
+

@@ -105,9 +105,9 @@ void servo_task(void *pvParameters) {
         
         // asyncwebcam.x y 是相对于中点坐标的百分比 需要映射为角度
         action = asyncwebcam.action;
-        targetAngle[0] = servoLimits[0].def + asyncwebcam.x * abs(servoLimits[0].max - servoLimits[0].min);
-        targetAngle[1] = servoLimits[1].def + asyncwebcam.y * abs(servoLimits[1].max - servoLimits[1].def);
-        targetAngle[2] = asyncwebcam.z;
+        targetAngle[0] = servoLimits[0].def + asyncwebcam.joystickX * abs(servoLimits[0].max - servoLimits[0].min);
+        targetAngle[1] = servoLimits[1].def + asyncwebcam.joystickY * abs(servoLimits[1].max - servoLimits[1].def);
+        targetAngle[2] = asyncwebcam.joystickZ;
       }
     }
     xSemaphoreGive(xMutex);
