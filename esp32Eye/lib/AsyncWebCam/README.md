@@ -12,7 +12,7 @@ GitHub：https://github.com/Cirnocon
 
 b站：Cirnocon
 
-## 项目结构
+## 库结构
 - `AsyncWebCaam/`
   - `src/`
     - `AsyncJpesStreamResponse.hpp` 定义了专门用于视频推流的AsyncWebServer类
@@ -33,7 +33,7 @@ b站：Cirnocon
 
     - `void init_camera()` 初始化 ***OV2640*** 摄像头
 
-    - `void init_mutex()` 初始化 ***互斥锁***（不建议用，用了就爆看门狗）
+    - `void init_mutex()` 初始化 ***互斥锁***（不建议用，会爆看门狗）
 
     - `void init_server()` 初始化 ***觉之瞳*** 服务器
 

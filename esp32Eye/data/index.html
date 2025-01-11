@@ -86,17 +86,19 @@
     <img id="videoStream" src="" alt="Camera Stream" style="display: none;"> 
     <img id="placeholderImage" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='640' height='480' viewBox='0 0 640 480'%3E%3Crect width='640' height='480' fill='white'/%3E%3C/svg%3E" alt="Placeholder Image" style="display: block;">
 
+
     <div id="control-container">
       <div class="btn-container">
         <!-- Action Buttons -->
-        <button onclick="setAction(1)">眨眼</button>
-        <button onclick="setAction(2)">摇头</button>
-        <button onclick="setAction(3)">点头</button>
-        <button onclick="setAction(4)">闭眼</button>
-        <button onclick="setAction(5)">睁眼</button>
-        <button id="toggleStreamButton" onclick="toggleStream()">Start Stream</button>
+        <button onclick="setAction(-1)">眨眼</button>
+        <button onclick="setAction(-2)">摇头</button>
+        <button onclick="setAction(-3)">点头</button>
+        <button onclick="setAction(-4)">闭眼</button>
+        <button onclick="setAction(-5)">睁眼</button>
+        <button id="toggleStreamButton" onclick="toggleStream()">视频流：关闭</button>
+        <button id="faceTrackButton" onclick="toggleFaceTracing()">人脸追踪: 关闭</button>
+        <button id="fumoTrackButton" onclick="toggleFumoTracing()">Fumo追踪: 关闭</button>
       </div>
-      
       <div id="joystick-container">
       </div>
     </div>
@@ -108,8 +110,7 @@
     let Action = 0;
     let mouseX = 0;
     let mouseY = 0;
-    let z = 140;
-    let isStreaming = false;
+    let mouseZ = 140;
     let lastSendTime = 0;
     const sendInterval = 125; 
 
@@ -134,6 +135,10 @@
       lastSendTime = currentTime;
       setAction(0);
       sendData();
+
+      // 关闭所有追踪功能
+      toggleFaceTracing(false);
+      toggleFumoTracing(false);
     });
 
     joystickManager.on('end', function () {
@@ -143,8 +148,14 @@
       sendData();
     });
 
+    document.addEventListener('wheel', function (event) {
+      const delta = event.deltaY;
+      mouseZ = Math.min(Math.max(mouseZ + delta / 10, 70), 170);
+      sendData();
+    });
+
     function sendData() {
-      const data = { action: Action, mouseX: mouseX, mouseY: mouseY, mouseZ: z };
+      const data = { action: Action, mouseX: mouseX, mouseY: mouseY, mouseZ: mouseZ };
       console.log(data);
       fetch('/data', {
         method: 'POST',
@@ -166,31 +177,83 @@
     }
 
     function toggleStream() {
-      isStreaming = !isStreaming;
-      const videoStream = document.getElementById('videoStream');
-      const placeholderImage = document.getElementById('placeholderImage');
       const toggleButton = document.getElementById('toggleStreamButton');
 
-      if (isStreaming) {
-        videoStream.style.display = 'block';
-        videoStream.src = '/stream';
-        placeholderImage.style.display = 'none'; 
-        toggleButton.textContent = "Stop Stream";
-        console.log('Video stream started');
-      } else {
-        videoStream.style.display = 'none';
-        videoStream.src = '';
-        placeholderImage.style.display = 'block'; 
-        toggleButton.textContent = "Start Stream"; 
+      if (toggleButton.textContent.includes("关闭")) {
+        toggleButton.textContent = "视频流：开启"; 
+        document.getElementById('videoStream').style.display = 'block';
+        document.getElementById('videoStream').src = '/stream';
+        document.getElementById('placeholderImage').style.display = 'none';
         console.log('Video stream stopped');
+      } else {
+        toggleButton.textContent = "视频流：关闭"; 
+        document.getElementById('videoStream').style.display = 'none';
+        document.getElementById('videoStream').src = '';
+        document.getElementById('placeholderImage').style.display = 'block';
+        console.log('Video stream started');
       }
     }
 
-    document.addEventListener('wheel', function (event) {
-      const delta = event.deltaY;
-      z = Math.min(Math.max(z + delta / 10, 70), 170);
-      sendData();
-    });
+    function toggleFaceTracing(isTracking = null) {
+      const faceTrackButton = document.getElementById('faceTrackButton');
+      const fumoTrackButton = document.getElementById('fumoTrackButton');
+
+      if (isTracking === null) {
+        if (faceTrackButton.textContent.includes("关闭")) {
+          setAction(1);  // 开启人脸追踪
+          faceTrackButton.textContent = "人脸追踪: 开启";
+          fumoTrackButton.textContent = "Fumo追踪: 关闭";
+          console.log('Human face on');
+          console.log('Fumo face off');
+        } else {
+          setAction(0);  // 关闭人脸追踪
+          faceTrackButton.textContent = "人脸追踪: 关闭";
+          console.log('Human face off');
+        }
+      } else {
+        if (isTracking) {
+          setAction(1);  // 开启人脸追踪
+          faceTrackButton.textContent = "人脸追踪: 开启";
+          fumoTrackButton.textContent = "Fumo追踪: 关闭";
+          console.log('Human face on');
+        } else {
+          setAction(0);  // 关闭人脸追踪
+          faceTrackButton.textContent = "人脸追踪: 关闭";
+          console.log('Human face off');
+        }
+      }
+    }
+
+    function toggleFumoTracing(isTracking = null) {
+      const fumoTrackButton = document.getElementById('fumoTrackButton');
+      const faceTrackButton = document.getElementById('faceTrackButton');
+
+      if (isTracking === null) {
+        if (fumoTrackButton.textContent.includes("关闭")) {
+          setAction(2);  // 开启Fumo追踪
+          fumoTrackButton.textContent = "Fumo追踪: 开启";
+          faceTrackButton.textContent = "人脸追踪: 关闭";
+          console.log('Fumo face on');
+          console.log('Human face off');
+        } else {
+          setAction(0);  // 关闭Fumo追踪
+          fumoTrackButton.textContent = "Fumo追踪: 关闭";
+          console.log('Fumo face off');
+        }
+      } else {
+        if (isTracking) {
+          setAction(2);  // 开启Fumo追踪
+          fumoTrackButton.textContent = "Fumo追踪: 开启";
+          faceTrackButton.textContent = "人脸追踪: 关闭";
+          console.log('Fumo face on');
+        } else {
+          setAction(0);  // 关闭Fumo追踪
+          fumoTrackButton.textContent = "Fumo追踪: 关闭";
+          console.log('Fumo face off');
+        }
+      }
+    }
+
   </script>
 </body>
 </html>

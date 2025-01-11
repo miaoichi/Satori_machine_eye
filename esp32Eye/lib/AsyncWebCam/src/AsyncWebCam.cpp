@@ -1,30 +1,126 @@
-/* 
- * Satori_machine_eye - Toho Satori third eye
- * Copyright (C) 2025  Cirnocon
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- * 
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
- */
+#include "AsyncWebCam.hpp"
 
-#include "AsyncWebCam.h"
+#define PART_BOUNDARY "123456789000000000000987654321"
+static const char* STREAM_CONTENT_TYPE = "multipart/x-mixed-replace;boundary=" PART_BOUNDARY;
+static const char* STREAM_BOUNDARY = "\r\n--" PART_BOUNDARY "\r\n";
+static const char* STREAM_PART = "Content-Type: %s\r\nContent-Length: %u\r\n\r\n";
+
+static const char * JPG_CONTENT_TYPE = "image/jpeg";
+static const char * BMP_CONTENT_TYPE = "image/x-windows-bmp";
+
+
+// 构造函数
+AsyncJpegStreamResponse::AsyncJpegStreamResponse() {
+  _callback = nullptr;
+  _code = 200;
+  _contentLength = 0;
+  _contentType = STREAM_CONTENT_TYPE;
+  _sendContentLength = false;
+  _chunked = true;
+  _index = 0;
+  _jpg_buf_len = 0;
+  _jpg_buf = NULL;
+  lastAsyncRequest = 0;
+  memset(&_frame, 0, sizeof(camera_frame_t));
+}
+
+// 析构函数
+AsyncJpegStreamResponse::~AsyncJpegStreamResponse() {
+  if (_frame.fb) {
+    if (_frame.fb->format != PIXFORMAT_JPEG) {
+      free(_jpg_buf);
+    }
+    esp_camera_fb_return(_frame.fb);  // 释放帧
+  }
+}
+
+bool AsyncJpegStreamResponse::_sourceValid() const {
+  return true;
+}
+
+size_t AsyncJpegStreamResponse::_fillBuffer(uint8_t *buf, size_t maxLen) {
+  size_t ret = _content(buf, maxLen, _index);
+  if (ret != RESPONSE_TRY_AGAIN) {
+    _index += ret;
+  }
+  return ret;
+}
+
+size_t AsyncJpegStreamResponse::_content(uint8_t *buffer, size_t maxLen, size_t index) {
+  if (!_frame.fb || _frame.index == _jpg_buf_len) {
+    if (index && _frame.fb) {
+      uint64_t end = (uint64_t)micros();
+      int fp = (end - lastAsyncRequest) / 1000;
+      float fps = 1000.0f / fp;
+      lastAsyncRequest = end;
+      if (_frame.fb->format != PIXFORMAT_JPEG) {
+        free(_jpg_buf);  // 释放缓存
+      }
+      esp_camera_fb_return(_frame.fb);  // 释放帧
+      _frame.fb = NULL;
+      _jpg_buf_len = 0;
+      _jpg_buf = NULL;
+    }
+
+    // 确保足够空间处理头部信息
+    if (maxLen < (strlen(STREAM_BOUNDARY) + strlen(STREAM_PART) + strlen(JPG_CONTENT_TYPE) + 8)) {
+      log_w("Not enough space for headers");
+      return RESPONSE_TRY_AGAIN;
+    }
+
+    // 获取摄像头帧数据
+    _frame.index = 0;
+    _frame.fb = esp_camera_fb_get();
+    if (_frame.fb == NULL) {
+      log_e("Camera frame failed");
+      return 0;
+    } else {
+      _jpg_buf_len = _frame.fb->len;
+      _jpg_buf = _frame.fb->buf;
+    }
+
+    // 发送边界
+    size_t blen = 0;
+    if (index) {
+      blen = strlen(STREAM_BOUNDARY);
+      memcpy(buffer, STREAM_BOUNDARY, blen);
+      buffer += blen;
+    }
+
+    // 发送头部
+    size_t hlen = sprintf((char *)buffer, STREAM_PART, JPG_CONTENT_TYPE, _jpg_buf_len);
+    buffer += hlen;
+
+    // 发送帧数据
+    hlen = maxLen - hlen - blen;
+    if (hlen > _jpg_buf_len) {
+      maxLen -= hlen - _jpg_buf_len;
+      hlen = _jpg_buf_len;
+    }
+    memcpy(buffer, _jpg_buf, hlen);
+    _frame.index += hlen;
+    return maxLen;
+  }
+
+  size_t available = _jpg_buf_len - _frame.index;
+  if (maxLen > available) {
+    maxLen = available;
+  }
+  memcpy(buffer, _jpg_buf + _frame.index, maxLen);
+  _frame.index += maxLen;
+
+  vTaskDelay(pdMS_TO_TICKS(10));
+  return maxLen;
+}
 
 AsyncWebCam::AsyncWebCam() : server(80) { }
 SemaphoreHandle_t AsyncWebCam::mutex = NULL;
+bool AsyncWebCam::is_mobile = false;
 bool AsyncWebCam::newdata = false;
 int AsyncWebCam::action = 0;
-float AsyncWebCam::x = 0.f;
-float AsyncWebCam::y = 0.f;
-float AsyncWebCam::z = 0.f;
+float AsyncWebCam::joystickX = 0.f;
+float AsyncWebCam::joystickY = 0.f;
+float AsyncWebCam::joystickZ = 0.f;
 
 void AsyncWebCam::init_spiffs() {
   if (!SPIFFS.begin()) {
@@ -64,7 +160,7 @@ void AsyncWebCam::init_camera() {
   config.xclk_freq_hz = 20000000;
   config.pixel_format = PIXFORMAT_JPEG;
   config.frame_size = FRAMESIZE_QVGA;  // 视频流分辨率
-  config.jpeg_quality = 10; // 帧压缩率
+  config.jpeg_quality = 10;
   config.fb_count = 2;
   config.fb_location = CAMERA_FB_IN_PSRAM;
   config.grab_mode = CAMERA_GRAB_WHEN_EMPTY;
@@ -83,16 +179,26 @@ void AsyncWebCam::init_camera() {
 void AsyncWebCam::init_mutex() {
   mutex = xSemaphoreCreateMutex(); 
   if (mutex == NULL) {
-    Serial.println("Mutex creation failed");
+    Serial.println("Mutex creation failed\n");
     Serial.println();
     return;
   } else {
-    Serial.println("Mutex inite succeeded");
+    Serial.println("Mutex inite succeeded\n");
     Serial.println();  
   }
 }
 
 void root_handler(AsyncWebServerRequest *request) {
+  String userAgent = request->header("User-Agent");
+
+  // 是否是手机连接
+  AsyncWebCam::is_mobile = userAgent.indexOf("Mobile") >= 0;
+  Serial.printf("%s\n", AsyncWebCam::is_mobile?"mobile":"not mobile");
+  
+  // 打印出用户代理信息和设备类型
+  Serial.println("User-Agent: " + userAgent);
+
+  // 发送根页面HTML
   if (SPIFFS.exists("/index.html")) {
     AsyncWebServerResponse *response = request->beginResponse(SPIFFS, "/index.html", "text/html");
     response->addHeader("Access-Control-Allow-Origin", "*");
@@ -113,16 +219,9 @@ AsyncCallbackJsonWebHandler* data_handler = new AsyncCallbackJsonWebHandler("/da
   // 提取进public变量
   AsyncWebCam::newdata = true;
   AsyncWebCam::action = jsonObj["action"].as<int>();
-  AsyncWebCam::x = jsonObj["mouseX"].as<float>();
-  AsyncWebCam::y = jsonObj["mouseY"].as<float>();
-  AsyncWebCam::z = jsonObj["mouseZ"].as<float>();
-
-  // if (AsyncWebCam::mutex != NULL) {
-  //   if (xSemaphoreTake(AsyncWebCam::mutex, portMAX_DELAY) == pdTRUE) {
-      
-  //     xSemaphoreGive(AsyncWebCam::mutex);
-  //   }
-  // }
+  AsyncWebCam::joystickX = jsonObj["mouseX"].as<float>();
+  AsyncWebCam::joystickY = jsonObj["mouseY"].as<float>();
+  AsyncWebCam::joystickZ = jsonObj["mouseZ"].as<float>();
 
   // 回应
   AsyncResponseStream *response = request->beginResponseStream("application/json; charset=utf-8");
@@ -137,13 +236,13 @@ AsyncCallbackJsonWebHandler* data_handler = new AsyncCallbackJsonWebHandler("/da
 });
 
 void stream_handler(AsyncWebServerRequest *request){
-    AsyncJpegStreamResponse *response = new AsyncJpegStreamResponse();
-    if(!response){
-        request->send(501);
-        return;
-    }
-    response->addHeader("Access-Control-Allow-Origin", "*");
-    request->send(response);
+  AsyncJpegStreamResponse *response = new AsyncJpegStreamResponse();
+  if(!response){
+      request->send(501);
+      return;
+  }
+  response->addHeader("Access-Control-Allow-Origin", "*");
+  request->send(response);
 }
 
 void AsyncWebCam::init_server() {
