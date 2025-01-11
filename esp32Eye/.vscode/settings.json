@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "*.c": "c",
+        "cstddef": "cpp",
+        "limits": "cpp",
+        "random": "cpp"
+    }
+}
