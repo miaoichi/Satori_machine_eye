@@ -91,13 +91,13 @@
       <div class="btn-container">
         <!-- Action Buttons -->
         <button onclick="setAction(-1)">眨眼</button>
-        <button onclick="setAction(-2)">摇头</button>
-        <button onclick="setAction(-3)">点头</button>
-        <button onclick="setAction(-4)">闭眼</button>
-        <button onclick="setAction(-5)">睁眼</button>
-        <button id="toggleStreamButton" onclick="toggleStream()">视频流：关闭</button>
-        <button id="faceTrackButton" onclick="toggleFaceTracing()">人脸追踪: 关闭</button>
-        <button id="fumoTrackButton" onclick="toggleFumoTracing()">Fumo追踪: 关闭</button>
+        <button onclick="setAction(-2)">搖頭</button>
+        <button onclick="setAction(-3)">點頭</button>
+        <button onclick="setAction(-4)">閉眼</button>
+        <button onclick="setAction(-5)">睜眼</button>
+        <button id="toggleStreamButton" onclick="toggleStream()">影像串流: 關閉</button>
+        <button id="faceTrackButton" onclick="toggleFaceTracing()">人臉追蹤: 關閉</button>
+        <button id="fumoTrackButton" onclick="toggleFumoTracing()">Fumo追蹤: 關閉</button>
       </div>
       <div id="joystick-container">
       </div>
@@ -136,7 +136,7 @@
       setAction(0);
       sendData();
 
-      // 关闭所有追踪功能
+      // 關閉所有追蹤功能
       toggleFaceTracing(false);
       toggleFumoTracing(false);
     });
@@ -179,14 +179,14 @@
     function toggleStream() {
       const toggleButton = document.getElementById('toggleStreamButton');
 
-      if (toggleButton.textContent.includes("关闭")) {
-        toggleButton.textContent = "视频流：开启"; 
+      if (toggleButton.textContent.includes("關閉")) {
+        toggleButton.textContent = "影像串流:開啟"; 
         document.getElementById('videoStream').style.display = 'block';
         document.getElementById('videoStream').src = '/stream';
         document.getElementById('placeholderImage').style.display = 'none';
         console.log('Video stream stopped');
       } else {
-        toggleButton.textContent = "视频流：关闭"; 
+        toggleButton.textContent = "影像串流：關閉"; 
         document.getElementById('videoStream').style.display = 'none';
         document.getElementById('videoStream').src = '';
         document.getElementById('placeholderImage').style.display = 'block';
@@ -199,26 +199,26 @@
       const fumoTrackButton = document.getElementById('fumoTrackButton');
 
       if (isTracking === null) {
-        if (faceTrackButton.textContent.includes("关闭")) {
-          setAction(1);  // 开启人脸追踪
-          faceTrackButton.textContent = "人脸追踪: 开启";
-          fumoTrackButton.textContent = "Fumo追踪: 关闭";
+        if (faceTrackButton.textContent.includes("關閉")) {
+          setAction(1);  // 開啟人臉追蹤
+          faceTrackButton.textContent = "人臉追蹤: 開啟";
+          fumoTrackButton.textContent = "Fumo追蹤: 關閉";
           console.log('Human face on');
           console.log('Fumo face off');
         } else {
-          setAction(0);  // 关闭人脸追踪
-          faceTrackButton.textContent = "人脸追踪: 关闭";
+          setAction(0);  // 關閉人臉追蹤
+          faceTrackButton.textContent = "人臉追蹤: 關閉";
           console.log('Human face off');
         }
       } else {
         if (isTracking) {
-          setAction(1);  // 开启人脸追踪
-          faceTrackButton.textContent = "人脸追踪: 开启";
-          fumoTrackButton.textContent = "Fumo追踪: 关闭";
+          setAction(1);  // 開啟人臉追蹤
+          faceTrackButton.textContent = "人臉追蹤: 開啟";
+          fumoTrackButton.textContent = "Fumo追蹤: 關閉";
           console.log('Human face on');
         } else {
-          setAction(0);  // 关闭人脸追踪
-          faceTrackButton.textContent = "人脸追踪: 关闭";
+          setAction(0);  // 關閉人臉追蹤
+          faceTrackButton.textContent = "人臉追蹤: 關閉";
           console.log('Human face off');
         }
       }
@@ -229,26 +229,26 @@
       const faceTrackButton = document.getElementById('faceTrackButton');
 
       if (isTracking === null) {
-        if (fumoTrackButton.textContent.includes("关闭")) {
-          setAction(2);  // 开启Fumo追踪
-          fumoTrackButton.textContent = "Fumo追踪: 开启";
-          faceTrackButton.textContent = "人脸追踪: 关闭";
+        if (fumoTrackButton.textContent.includes("關閉")) {
+          setAction(2);  // 開啟Fumo追蹤
+          fumoTrackButton.textContent = "Fumo追蹤: 開啟";
+          faceTrackButton.textContent = "人臉追蹤: 關閉";
           console.log('Fumo face on');
           console.log('Human face off');
         } else {
-          setAction(0);  // 关闭Fumo追踪
-          fumoTrackButton.textContent = "Fumo追踪: 关闭";
+          setAction(0);  // 關閉Fumo追蹤
+          fumoTrackButton.textContent = "Fumo追蹤: 關閉";
           console.log('Fumo face off');
         }
       } else {
         if (isTracking) {
-          setAction(2);  // 开启Fumo追踪
-          fumoTrackButton.textContent = "Fumo追踪: 开启";
-          faceTrackButton.textContent = "人脸追踪: 关闭";
+          setAction(2);  // 開啟Fumo追蹤
+          fumoTrackButton.textContent = "Fumo追蹤: 開啟";
+          faceTrackButton.textContent = "人臉追蹤: 關閉";
           console.log('Fumo face on');
         } else {
-          setAction(0);  // 关闭Fumo追踪
-          fumoTrackButton.textContent = "Fumo追踪: 关闭";
+          setAction(0);  // 關閉Fumo追蹤
+          fumoTrackButton.textContent = "Fumo追蹤: 關閉";
           console.log('Fumo face off');
         }
       }

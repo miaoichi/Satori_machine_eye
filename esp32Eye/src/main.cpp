@@ -17,19 +17,19 @@ const struct { double min, max, def; } servoLimits[] = {
 Servo* servos[] = {&servoX, &servoY, &servoZ};
 
 
-/* 参调用 */
-const int TOTAL_STEPS = 150;      // 默认的最大步数
-const int TOTAL_DELAY = 250; // 默认总时间（毫秒）
+/* 參調用 */
+const int TOTAL_STEPS = 150;      // 預設的最大步數
+const int TOTAL_DELAY = 250; // 預設總時間（毫秒）
 
 volatile float targetAngle[3] = {130, 45, 170};
 volatile float currentAngle[3] = {130, 45, 170};
 
-/* 三个舵机同时平滑转动函数 */
+/* 三个舵機同時平滑轉動函數 */
 void servo_smooth(float x, float y, float z) {
   int steps;
   float delaytime, maxAngleDiff, stepAngles[3], tA[3] = {x, y, z};
 
-  // 判断输入值是否超出范围
+  // 判斷輸入值是否超出範圍
   if (tA[0] < servoLimits[0].min) tA[0] = servoLimits[0].min;
   if (tA[0] > servoLimits[0].max) tA[0] = servoLimits[0].max;
   if (tA[1] < servoLimits[1].min) tA[1] = servoLimits[1].min;
@@ -37,33 +37,33 @@ void servo_smooth(float x, float y, float z) {
   if (tA[2] < servoLimits[2].min) tA[2] = servoLimits[2].min;
   if (tA[2] > servoLimits[2].max) tA[2] = servoLimits[2].max;
 
-  // 计算最大角度差
+  // 計算最大角度差
   for (int i = 0; i < 3; i++) {
     float diff = abs(tA[i] - currentAngle[i]);
     if (diff > maxAngleDiff) maxAngleDiff = diff;
   }
 
-  // 计算步数和每步延时
-  steps = max(1, (int)(maxAngleDiff * TOTAL_STEPS / 180.0)); // 步数计算
-  delaytime = TOTAL_DELAY / steps; // 每步延时
+  // 計算步數和每步延時
+  steps = max(1, (int)(maxAngleDiff * TOTAL_STEPS / 180.0)); // 步數計算
+  delaytime = TOTAL_DELAY / steps; // 每步延遲時間
 
-  // 计算每步转动角度
+  // 計算每步轉動角度
   for (int i = 0; i < 3; i++) {
     stepAngles[i] = (tA[i] - currentAngle[i]) / steps;
   }
 
-  // 平滑移动到目标角度
+  // 平滑地移動到目標角度
   for (int step = 0; step < steps; step++) {
-    // 若有新数据立即中断当前平滑过程
+    // 若有新資料立即中斷目前平滑過程
     if (asyncwebcam.newdata) break;
     
-    // 否则更新currentAngle并写入舵机
+    // 否則更新currentAngle並寫入舵機
     for (int i = 0; i < 3; i++) {
       currentAngle[i] += stepAngles[i];
       servos[i] -> write(currentAngle[i]);
     }
     
-    // 每步等待的时间
+    // 每步等待的時間
     delay(delaytime);
   }
 }
@@ -73,7 +73,7 @@ void servo_smooth(float x, float y) {
   float z = y+65;
   float delaytime, maxAngleDiff, stepAngles[3], tA[3] = {x, y, z};
 
-  // 判断输入值是否超出范围
+  // 判斷輸入值是否超出範圍
   if (tA[0] < servoLimits[0].min) tA[0] = servoLimits[0].min;
   if (tA[0] > servoLimits[0].max) tA[0] = servoLimits[0].max;
   if (tA[1] < servoLimits[1].min) tA[1] = servoLimits[1].min;
@@ -81,33 +81,33 @@ void servo_smooth(float x, float y) {
   if (tA[2] < servoLimits[2].min) tA[2] = servoLimits[2].min;
   if (tA[2] > servoLimits[2].max) tA[2] = servoLimits[2].max;
 
-  // 计算最大角度差
+  // 計算最大角度差
   for (int i = 0; i < 3; i++) {
     float diff = abs(tA[i] - currentAngle[i]);
     if (diff > maxAngleDiff) maxAngleDiff = diff;
   }
 
-  // 计算步数和每步延时
-  steps = max(1, (int)(maxAngleDiff * TOTAL_STEPS / 180.0)); // 步数计算
-  delaytime = TOTAL_DELAY / steps; // 每步延时
+  // 計算步數和每步延時
+  steps = max(1, (int)(maxAngleDiff * TOTAL_STEPS / 180.0)); // 步數計算
+  delaytime = TOTAL_DELAY / steps; // 每步延遲時
 
-  // 计算每步转动角度
+  // 計算每步轉動角度
   for (int i = 0; i < 3; i++) {
     stepAngles[i] = (tA[i] - currentAngle[i]) / steps;
   }
 
-  // 平滑移动到目标角度
+  // 平滑地移動到目標角度
   for (int step = 0; step < steps; step++) {
-    // 若有新数据立即中断当前平滑过程
+    // 若有新資料立即中斷目前平滑過程
     if (asyncwebcam.newdata) break;
     
-    // 否则更新currentAngle并写入舵机
+    // 否則更新currentAngle並寫入舵機
     for (int i = 0; i < 3; i++) {
       currentAngle[i] += stepAngles[i];
       servos[i] -> write(currentAngle[i]);
     }
     
-    // 每步等待的时间
+    // 每步等待的時間
     delay(delaytime);
   }
 }
@@ -131,7 +131,7 @@ void servo_task(void *pvParameters) {
       if (asyncwebcam.newdata) {
         Serial.println("newdata");
         
-        // 提取所有变量
+        // 提取所有變數
         newdata = true;
         action = asyncwebcam.action;
         joystickX = asyncwebcam.joystickX;
@@ -147,7 +147,7 @@ void servo_task(void *pvParameters) {
 
     if (newdata) {
       newdata = false;
-      // 摇杆
+      // 搖桿
       if (action == 0) {
         Serial.println("joystick");
         
@@ -162,7 +162,7 @@ void servo_task(void *pvParameters) {
         }  
       }
 
-      //人脸跟踪
+      //人臉跟蹤
       else if (action == 1) {
         Serial.println("Servo task off, creating face tracing task"); 
         xTaskCreate(faceTracingTask, "FaceTracingTask", 32768, NULL, 1, &faceTracingTaskHandle);
@@ -187,11 +187,11 @@ void servo_task(void *pvParameters) {
         action = 0;
       }
 
-      // 摇头
+      // 搖頭
       else if (action == -2) {
         Serial.println("activate action -2");
 
-        double temp[3], xAdjustment=25; // 摇头偏移量
+        double temp[3], xAdjustment=25; // 搖頭偏移量
         temp[0] = currentAngle[0]-xAdjustment;
         temp[1] = currentAngle[0]+xAdjustment;
         temp[2] = currentAngle[0];
@@ -204,11 +204,11 @@ void servo_task(void *pvParameters) {
         action = 0;
       }
 
-      // 点头
+      // 點頭
       else if (action == -3) {
         Serial.println("activate action -3");
 
-        double temp[3], yAdjustment=25; // 点头偏移量
+        double temp[3], yAdjustment=25; // 點頭偏移量
         temp[0] = currentAngle[1]-yAdjustment;
         temp[1] = currentAngle[1]+yAdjustment;
         temp[2] = currentAngle[1];
@@ -221,7 +221,7 @@ void servo_task(void *pvParameters) {
         action = 0;  
       }
 
-      // 闭眼
+      // 閉眼
       else if (action == -4) {
         Serial.println("activate action -4");
 
@@ -271,7 +271,7 @@ void faceTracingTask(void *pvParameters) {
 
 void setup() {
   Serial.begin(115200);
-  // 初始化舵机
+  // 初始化舵機
   servoX.attach(servoXPin);
   servoY.attach(servoYPin);
   servoZ.attach(servoZPin);  
